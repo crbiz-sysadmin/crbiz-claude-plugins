@@ -1,0 +1,30 @@
+{
+  "name": "crbiz-claude-plugins",
+  "owner": {
+    "name": "CRBiz",
+    "url": "https://github.com/crbiz-sysadmin"
+  },
+  "metadata": {
+    "description": "CRBiz internal Claude Code plugins.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "pm-board-keeper",
+      "source": {
+        "source": "git-subdir",
+        "url": "crbiz-sysadmin/pm-board",
+        "path": "plugin/pm-board-keeper"
+      },
+      "description": "Stand up and maintain a single-file HTML PM dashboard (docs/board.html) for chip-spawn workflows. Bundles the pm-board-keeper agent, six slash commands, and a skill with templates and style guide.",
+      "version": "0.1.0",
+      "author": {
+        "name": "CRBiz",
+        "url": "https://github.com/crbiz-sysadmin"
+      },
+      "homepage": "https://github.com/crbiz-sysadmin/pm-board",
+      "category": "project-management",
+      "tags": ["pm", "dashboard", "kanban", "html", "chip-spawn"]
+    }
+  ]
+}
