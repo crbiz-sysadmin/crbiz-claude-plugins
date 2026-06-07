@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.2.0"
+    "version": "0.2.1"
   },
   "plugins": [
     {
       "name": "crbiz-pm",
       "source": {
-        "source": "git",
+        "source": "url",
         "url": "https://github.com/crbiz-sysadmin/crbiz-pm.git"
       },
       "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the Catalyst-app and discovery-strategy archetypes. Install-anywhere, bidirectional HTML board, chip-spawn wrapper, Tie-back protocol, lean PM context. v2.0 of the PM-on-CC discipline. 19 skills + 6 agents + 18 commands.",
