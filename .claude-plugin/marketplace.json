@@ -6,17 +6,43 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "plugins": [
     {
+      "name": "crbiz-pm",
+      "source": {
+        "source": "git",
+        "url": "https://github.com/crbiz-sysadmin/crbiz-pm.git"
+      },
+      "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the Catalyst-app and discovery-strategy archetypes. Install-anywhere, bidirectional HTML board, chip-spawn wrapper, Tie-back protocol, lean PM context. v2.0 of the PM-on-CC discipline. 19 skills + 6 agents + 18 commands.",
+      "version": "2.0.0",
+      "author": {
+        "name": "Sean Sullivan",
+        "url": "https://github.com/crbiz-sysadmin"
+      },
+      "homepage": "https://github.com/crbiz-sysadmin/crbiz-pm",
+      "category": "project-management",
+      "tags": [
+        "pm",
+        "project-management",
+        "session-orchestration",
+        "chip-spawn",
+        "lane-discipline",
+        "configuration-overlay",
+        "tie-back",
+        "discovery-archetype",
+        "catalyst-archetype"
+      ]
+    },
+    {
       "name": "pm-board-keeper",
-     "source": {
-  "source": "git-subdir",
-  "url": "https://github.com/crbiz-sysadmin/pm-board.git",
-  "path": "plugin/pm-board-keeper"
-},
-      "description": "Stand up and maintain a single-file HTML PM dashboard (docs/board.html) for chip-spawn workflows. Bundles the pm-board-keeper agent, six slash commands, and a skill with templates and style guide.",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/crbiz-sysadmin/pm-board.git",
+        "path": "plugin/pm-board-keeper"
+      },
+      "description": "DEPRECATED in favour of crbiz-pm v2.0 (which lifts the pm-board skill + pm-board-keeper agent + 6 pm-board-* commands). Stand up and maintain a single-file HTML PM dashboard (docs/board.html) for chip-spawn workflows.",
       "version": "0.1.0",
       "author": {
         "name": "CRBiz",
@@ -24,7 +50,14 @@
       },
       "homepage": "https://github.com/crbiz-sysadmin/pm-board",
       "category": "project-management",
-      "tags": ["pm", "dashboard", "kanban", "html", "chip-spawn"]
+      "tags": [
+        "pm",
+        "dashboard",
+        "kanban",
+        "html",
+        "chip-spawn",
+        "deprecated"
+      ]
     }
   ]
 }
