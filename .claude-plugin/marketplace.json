@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.2.1"
+    "version": "0.2.2"
   },
   "plugins": [
     {
@@ -15,7 +15,7 @@
         "source": "url",
         "url": "https://github.com/crbiz-sysadmin/crbiz-pm.git"
       },
-      "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the Catalyst-app and discovery-strategy archetypes. Install-anywhere, bidirectional HTML board, chip-spawn wrapper, Tie-back protocol, lean PM context. v2.0 of the PM-on-CC discipline. 19 skills + 6 agents + 18 commands.",
+      "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the Catalyst-app and discovery-strategy archetypes. Install via marketplace on any surface; slash-command invocation runs in Claude Code CLI on a local folder or a Claude Code remote session against a repo (not currently supported in claude.ai/code Cowork). Bidirectional HTML board, chip-spawn wrapper, Tie-back protocol, lean PM context. v2.0 of the PM-on-CC discipline. 19 skills + 6 agents + 18 commands.",
       "version": "2.0.0",
       "author": {
         "name": "Sean Sullivan",
