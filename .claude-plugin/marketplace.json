@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.2.5"
+    "version": "0.2.6"
   },
   "plugins": [
     {
@@ -15,8 +15,8 @@
         "source": "url",
         "url": "https://github.com/crbiz-sysadmin/crbiz-pm.git"
       },
-      "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the Catalyst-app and discovery-strategy archetypes. Install via marketplace on any surface; slash-command invocation runs in Claude Code CLI on a local folder or a Claude Code remote session against a repo (not currently supported in claude.ai/code Cowork). Bidirectional HTML board with IndexedDB-persistent file access, chip-spawn wrapper with per-chip git worktree allocation + MCP smoke-test enforcement, Tie-back protocol, lean PM context. v2.1.2 of the PM-on-CC discipline — six-bug fix release (closes BUG-001 + BUG-008..BUG-012) plus 10 discipline hot-adds from PM self-reviews. 37 skills + 6 agents + SessionStart hook + PreToolUse git-stage-guard hook.",
-      "version": "2.1.2",
+      "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the Catalyst-app and discovery-strategy archetypes. Install via marketplace on any surface; slash-command invocation runs in Claude Code CLI on a local folder or a Claude Code remote session against a repo (not currently supported in claude.ai/code Cowork). Bidirectional HTML board with IndexedDB-persistent file access + full-width Kanban + dedicated Issues & Risks tab, chip-spawn wrapper with per-chip git worktree allocation + MCP smoke-test enforcement, Tie-back protocol, lean PM context. v2.1.3 of the PM-on-CC discipline — operator-visibility release: closes BUG-013 (persistent board access docs) + BUG-014 (v2.1 item #9 Issues+Risks layout); adds pm-self-review skill (/pm-self-review invocable end-of-session template); adds worktree-visibility PreToolUse hook closing the PM3 §1.1 drift (~10-hour, ~8-PR failure mode). 38 skills + 6 agents + SessionStart hook + 2 PreToolUse hooks (git-stage-guard + worktree-visibility-guard).",
+      "version": "2.1.3",
       "author": {
         "name": "Sean Sullivan",
         "url": "https://github.com/crbiz-sysadmin"
