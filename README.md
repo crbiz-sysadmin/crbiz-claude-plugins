@@ -12,6 +12,7 @@ installable — see [Access](#access).
 | Plugin | Description | Source |
 | --- | --- | --- |
 | `crbiz-pm` | PM-as-Configuration-Overlay grammar: bidirectional HTML board, chip-spawn wrapper, Tie-back protocol, lean PM context. | [`crbiz-sysadmin/crbiz-pm`](https://github.com/crbiz-sysadmin/crbiz-pm) (private) |
+| `crbiz-skills` | Zoho consulting skills: platform mechanics, Deluge, the product catalogue and licensing architecture, under six product specialists — CRM, Desk, Analytics, Catalyst, FSM and the finance suite. Plus BRD/PRD elicitation and WordPress/SEO migration. | [`crbiz-sysadmin/crbiz-skills`](https://github.com/crbiz-sysadmin/crbiz-skills) (private) |
 
 ### Retired
 
@@ -58,10 +59,16 @@ all the way to `c`.
 ```
 /plugin marketplace add crbiz-sysadmin/crbiz-claude-plugins
 /plugin install crbiz-pm@crbiz-claude-plugins
+/plugin install crbiz-skills@crbiz-claude-plugins
 ```
 
 Plugin skills are namespaced by plugin name, so `crbiz-pm` provides
 `/crbiz-pm:pm-board`, `/crbiz-pm:pm-init` and so on.
+
+`crbiz-skills` is almost entirely model-invoked rather than slash-invoked — its
+skills fire on description match when a Zoho question comes up, so there is
+usually nothing to type. The exception is the SessionStart hook, which applies
+the house working conventions from the first reply.
 
 ## Access
 

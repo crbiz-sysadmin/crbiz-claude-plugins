@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.3.0"
+    "version": "0.4.0"
   },
   "plugins": [
     {
@@ -34,6 +34,37 @@
         "discovery-archetype",
         "tailwind-catalyst-archetype",
         "zoho-catalyst-archetype"
+      ]
+    },
+    {
+      "name": "crbiz-skills",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/crbiz-sysadmin/crbiz-skills.git"
+      },
+      "description": "CRBiz's own Claude skills for Zoho consulting. An L0 foundation — platform mechanics (OAuth, data centres, API credits), the Deluge language, the product catalogue and persona-based licensing architecture — under six L1 product specialists: CRM on API v8 (Composite, Bulk, COQL, GraphQL, Notification), Desk, Analytics, Catalyst, Field Service Management, and the finance suite (Books, Invoice, Billing, Inventory, Expense, Payroll). Each specialist keeps judgement in SKILL.md, depth in references/, and carries a dated source note recording what was verified, against which documentation, and what could not be — so a stale fact is visible rather than inferred. Also ships BRD/PRD elicitation, WordPress and SEO migration, and finance and mail administration. Working conventions ship as a SessionStart hook so language and output format are right in the first reply rather than after a skill happens to trigger. Identity, agent-to-agent escalation, BAU and bug structure, and client-area layout are owned by the Global PM BRD and referenced, never restated. 18 skills + 1 agent + SessionStart hook + a six-check validation harness.",
+      "version": "0.2.0",
+      "author": {
+        "name": "Sean Sullivan",
+        "url": "https://github.com/crbiz-sysadmin"
+      },
+      "homepage": "https://github.com/crbiz-sysadmin/crbiz-skills",
+      "category": "consulting",
+      "tags": [
+        "zoho",
+        "crm",
+        "desk",
+        "analytics",
+        "catalyst",
+        "fsm",
+        "books",
+        "deluge",
+        "licensing",
+        "consulting",
+        "brd",
+        "prd",
+        "wordpress",
+        "seo"
       ]
     }
   ],
