@@ -12,7 +12,28 @@ installable — see [Access](#access).
 | Plugin | Description | Source |
 | --- | --- | --- |
 | `crbiz-pm` | PM-as-Configuration-Overlay grammar: bidirectional HTML board, chip-spawn wrapper, Tie-back protocol, lean PM context. | [`crbiz-sysadmin/crbiz-pm`](https://github.com/crbiz-sysadmin/crbiz-pm) (private) |
-| `pm-board-keeper` | **Deprecated** in favour of `crbiz-pm` v2.0, which lifts the board skill, the keeper agent and the six `pm-board-*` commands. | [`crbiz-sysadmin/pm-board`](https://github.com/crbiz-sysadmin/pm-board), subdir `plugin/pm-board-keeper` |
+
+### Retired
+
+`pm-board-keeper` was delisted in catalogue v0.3.0. `crbiz-pm` v2.0 lifted the
+board skill, the keeper agent and the six `pm-board-*` commands, so the plugin
+had nothing left that `crbiz-pm` does not carry.
+
+It is delisted, not deleted. The source still lives at
+[`crbiz-sysadmin/pm-board`](https://github.com/crbiz-sysadmin/pm-board) —
+removing a catalogue entry never touches the repository it points at.
+
+Anyone who still has it installed is migrated automatically by the `renames`
+map, which points `pm-board-keeper` at `crbiz-pm`: Claude Code loads the
+successor, rewrites the key in their settings, and shows a one-line notice.
+Because the source is remote, they may see `plugin-cache-miss` once and need a
+single `/plugin install crbiz-pm@crbiz-claude-plugins` to fetch it.
+
+**Never delete a `renames` entry**, even long after everyone has migrated. The
+map is append-only: it is the only thing standing between a stale
+`enabledPlugins` key and a `plugin-not-found` error. To retire something else
+later, add an entry rather than editing an existing one — Claude Code follows
+chains.
 
 ## Install
 
