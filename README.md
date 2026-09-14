@@ -12,6 +12,7 @@ installable — see [Access](#access).
 | Plugin | Description | Source |
 | --- | --- | --- |
 | `crbiz-pm` | PM-as-Configuration-Overlay grammar: bidirectional HTML board, chip-spawn wrapper, Tie-back protocol, lean PM context. | [`crbiz-sysadmin/crbiz-pm`](https://github.com/crbiz-sysadmin/crbiz-pm) (private) |
+| `crbiz-skills` | CRBiz's own Claude skills: Zoho consulting foundation, BRD/PRD elicitation, WordPress and SEO migration, finance and mail admin. Working conventions ship as a SessionStart hook. | [`crbiz-sysadmin/crbiz-skills`](https://github.com/crbiz-sysadmin/crbiz-skills) (private) |
 
 ### Retired
 

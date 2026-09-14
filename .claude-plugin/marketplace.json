@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.3.0"
+    "version": "0.4.0"
   },
   "plugins": [
     {
@@ -34,6 +34,33 @@
         "discovery-archetype",
         "tailwind-catalyst-archetype",
         "zoho-catalyst-archetype"
+      ]
+    },
+    {
+      "name": "crbiz-skills",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/crbiz-sysadmin/crbiz-skills.git"
+      },
+      "description": "CRBiz's own Claude skills. Zoho consulting foundation — platform mechanics and API credits, Deluge, the product catalogue, and persona-based licensing architecture that runs on Opus because it gates every downstream recommendation — plus BRD and PRD elicitation, WordPress and SEO migration, and finance and mail administration. Working conventions ship as a SessionStart hook so language and output format are right in the first reply rather than after a skill happens to trigger. Identity, agent-to-agent escalation, BAU and bug structure, and client-area layout are owned by the Global PM BRD and referenced, never restated. Third-party skill packs are not vendored here; install them upstream. v0.1.0 ships 12 skills, 1 agent and 1 hook; the four Zoho product specialists follow after their API v8 uplift.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Sean Sullivan",
+        "url": "https://github.com/crbiz-sysadmin"
+      },
+      "homepage": "https://github.com/crbiz-sysadmin/crbiz-skills",
+      "category": "productivity",
+      "tags": [
+        "zoho",
+        "deluge",
+        "catalyst",
+        "licensing",
+        "consulting",
+        "brd",
+        "prd",
+        "wordpress",
+        "elementor",
+        "seo"
       ]
     }
   ],
