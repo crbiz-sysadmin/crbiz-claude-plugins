@@ -23,17 +23,35 @@ It is delisted, not deleted. The source still lives at
 [`crbiz-sysadmin/pm-board`](https://github.com/crbiz-sysadmin/pm-board) —
 removing a catalogue entry never touches the repository it points at.
 
-Anyone who still has it installed is migrated automatically by the `renames`
-map, which points `pm-board-keeper` at `crbiz-pm`: Claude Code loads the
-successor, rewrites the key in their settings, and shows a one-line notice.
-Because the source is remote, they may see `plugin-cache-miss` once and need a
-single `/plugin install crbiz-pm@crbiz-claude-plugins` to fetch it.
+### Retiring a plugin: three options, not two
 
-**Never delete a `renames` entry**, even long after everyone has migrated. The
-map is append-only: it is the only thing standing between a stale
-`enabledPlugins` key and a `plugin-not-found` error. To retire something else
-later, add an entry rather than editing an existing one — Claude Code follows
-chains.
+Delisting has three outcomes for anyone who still has the plugin enabled, and
+the difference is entirely in the `renames` map:
+
+| What you do | What the user gets |
+| --- | --- |
+| Remove the entry, **no** `renames` mapping | A hard `plugin-not-found` error. The plugin does not load and nothing explains why. Avoid. |
+| Remove the entry, map the old name to **`null`** | Claude Code drops the key and reports that the plugin was removed from the marketplace. Clean, honest, no successor. |
+| Remove the entry, map the old name to **another plugin** | Claude Code rewrites the key to that plugin across user, project and local settings and shows a one-line notice. |
+
+`pm-board-keeper` uses the third, pointing at `crbiz-pm`, because `crbiz-pm`
+genuinely carries what it did and landing someone on the successor beats
+landing them nowhere.
+
+**Two honest caveats.** The migration is not seamless: because the source is
+remote, Claude Code reports `plugin-cache-miss` after the rewrite and the user
+must run `/plugin install crbiz-pm@crbiz-claude-plugins` once. And `crbiz-pm`
+is substantially larger than what it replaces, so the rewrite enrols them in a
+bigger context cost than the plugin they originally chose. Mapping to `null`
+would have avoided both at the price of leaving them with nothing. Given a
+manual step is unavoidable either way, that trade was close — if the blast
+radius were wider than a couple of installs, `null` would be the safer default.
+
+**Never delete a `renames` entry**, even long after everyone has migrated —
+that is what turns a graceful outcome back into `plugin-not-found`. The map is
+append-only. To retire something else later, add an entry rather than editing an
+existing one; Claude Code follows chains, so `a → b` plus `b → c` resolves `a`
+all the way to `c`.
 
 ## Install
 
