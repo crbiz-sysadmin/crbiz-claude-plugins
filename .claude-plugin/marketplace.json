@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.2.8"
+    "version": "0.3.0"
   },
   "plugins": [
     {
@@ -35,30 +35,9 @@
         "tailwind-catalyst-archetype",
         "zoho-catalyst-archetype"
       ]
-    },
-    {
-      "name": "pm-board-keeper",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/crbiz-sysadmin/pm-board.git",
-        "path": "plugin/pm-board-keeper"
-      },
-      "description": "DEPRECATED in favour of crbiz-pm v2.0 (which lifts the pm-board skill + pm-board-keeper agent + 6 pm-board-* commands). Stand up and maintain a single-file HTML PM dashboard (docs/board.html) for chip-spawn workflows.",
-      "version": "0.1.0",
-      "author": {
-        "name": "CRBiz",
-        "url": "https://github.com/crbiz-sysadmin"
-      },
-      "homepage": "https://github.com/crbiz-sysadmin/pm-board",
-      "category": "project-management",
-      "tags": [
-        "pm",
-        "dashboard",
-        "kanban",
-        "html",
-        "chip-spawn",
-        "deprecated"
-      ]
     }
-  ]
+  ],
+  "renames": {
+    "pm-board-keeper": "crbiz-pm"
+  }
 }
