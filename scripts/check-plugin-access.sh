@@ -57,17 +57,17 @@ while IFS= read -r entry; do
   if [[ -z "$url" ]]; then
     kind=$(jq -r 'if (.source|type) == "string" then "relative path" else .source.source end' <<<"$entry")
     printf '  %-22s SKIP  (%s source — nothing to fetch)\n' "$name" "$kind"
-    ((skip++))
+    skip=$((skip+1))
     continue
   fi
 
   if err=$(git ls-remote --heads "$url" 2>&1 >/dev/null); then
     printf '  %-22s OK    %s\n' "$name" "$url"
-    ((pass++))
+    pass=$((pass+1))
   else
     printf '  %-22s FAIL  %s\n' "$name" "$url"
     printf '  %-22s       %s\n' "" "$(head -n1 <<<"$err")"
-    ((fail++))
+    fail=$((fail+1))
   fi
 done < <(jq -c '.plugins[]' "$MANIFEST")
 
@@ -78,8 +78,11 @@ if (( fail == 0 )); then
   # Reachable by hand is not the same as reachable in the background. Say so,
   # because this is exactly the case that looks fine until it silently isn't.
   if git config --get-regexp '^credential\.' >/dev/null 2>&1; then
-    helper=$(git config --get credential.helper 2>/dev/null || echo "configured")
-    printf '\nCredential helper: %s\n' "$helper"
+    # A helper can be global (credential.helper) or scoped to one host
+    # (credential.https://github.com.helper). Only the first is readable by
+    # name, so fall back rather than printing an empty value.
+    helper=$(git config --get credential.helper 2>/dev/null)
+    printf '\nCredential helper: %s\n' "${helper:-configured (host-scoped)}"
     printf 'Interactive installs will work. Background refresh runs WITHOUT\n'
     printf 'credential helpers, so an HTTPS remote can still fail there. See\n'
     printf 'the "Background updates" section of README.md.\n'
