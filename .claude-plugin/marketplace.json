@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.4.0"
+    "version": "0.4.1"
   },
   "plugins": [
     {
@@ -16,7 +16,7 @@
         "url": "https://github.com/crbiz-sysadmin/crbiz-pm.git"
       },
       "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the discovery-strategy, tailwind-catalyst-app and zoho-catalyst-app archetypes. Install via marketplace on any surface; slash-command invocation runs in Claude Code CLI on a local folder or a Claude Code remote session against a repo (not currently supported in claude.ai/code Cowork). Bidirectional HTML board with IndexedDB-persistent file access, chip-spawn wrapper with per-chip git worktree allocation, Tie-back protocol, lean PM context. v2.2.0 of the PM-on-CC discipline — two independent pieces. A security default changes behaviour: WebFetch moves deny -> ask and WebSearch moves ask -> allow in the scaffold template, because a deny is not liftable by an allow from any source — the tool is withheld from the session toolset entirely, in every /pm-init repo, with nothing at session start saying why. /pm-init now refuses to scaffold a partial permission set, and the SessionStart hook names project overrides of user-level allow rules, bounded by the operator's own allow list so a repo cannot use its settings.json to get arbitrary text into session context. Separately, pm-migrate (skill 40) gives the never-used schema-2.2 handle a migrator that turns what needs a human into questions rather than a diff, backed by a check script that writes nothing; the boot hook advises and never blocks, because 2.1 is valid, merely un-migrated. 40 skills + 6 agents + SessionStart hook + 2 PreToolUse hooks (git-stage-guard + worktree-visibility-guard); /pm-lint runs 22 checks.",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "author": {
         "name": "Sean Sullivan",
         "url": "https://github.com/crbiz-sysadmin"
