@@ -1,0 +1,143 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  # Manual trigger, so the gates can be run against main by hand when a push
+  # dispatch is dropped — the failure mode crbiz-pm's own ci.yml records from a
+  # GitHub degradation, where a merge landed and no run was ever created.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate the marketplace catalogue
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The append-only-renames and catalogue-bump checks compare against the
+          # base revision, so the history has to be there to compare with.
+          fetch-depth: 0
+
+      # ============================================================
+      # Resolve the manifest as it stands on the base revision.
+      #
+      # If this cannot be produced, the two checks that need it are SKIPPED and
+      # say so. They are never reported as passing — a gate that silently
+      # downgrades to "nothing to compare" is a gate that stops working without
+      # telling anyone.
+      # ============================================================
+      - name: Resolve base manifest
+        id: base
+        run: |
+          set -uo pipefail
+          MANIFEST_PATH='.claude-plugin/marketplace.json'
+          OUT="$RUNNER_TEMP/base-marketplace.json"
+
+          case "${{ github.event_name }}" in
+            pull_request)
+              BASE_REF="${{ github.base_ref }}"
+              git fetch --no-tags --depth=1 origin "$BASE_REF" >/dev/null 2>&1 || true
+              REV="origin/$BASE_REF"
+              ;;
+            push)
+              REV="${{ github.event.before }}"
+              if [ -z "$REV" ] || [ "$REV" = "0000000000000000000000000000000000000000" ]; then
+                REV=""
+              fi
+              ;;
+            *)
+              REV=""
+              ;;
+          esac
+
+          if [ -z "$REV" ]; then
+            echo "::notice::No base revision for a ${{ github.event_name }} event; the base-diff checks will be SKIPPED."
+            echo "path=" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          if git show "$REV:$MANIFEST_PATH" > "$OUT" 2>/dev/null; then
+            echo "Base manifest resolved from $REV"
+            echo "path=$OUT" >> $GITHUB_OUTPUT
+          else
+            echo "::notice::Could not read $MANIFEST_PATH at $REV (new file, or revision unavailable); the base-diff checks will be SKIPPED."
+            echo "path=" >> $GITHUB_OUTPUT
+          fi
+
+      # ============================================================
+      # The gate itself. This catalogue is what every `claude plugin` install in
+      # the estate resolves; a malformed file breaks every install at once, and
+      # until this workflow existed nothing here read the file at all.
+      # ============================================================
+      - name: Validate marketplace.json
+        run: |
+          ARGS=""
+          if [ -n "${{ steps.base.outputs.path }}" ]; then
+            ARGS="--base-manifest ${{ steps.base.outputs.path }}"
+          fi
+          python3 .github/scripts/check-marketplace.py $ARGS
+
+      # A guard nobody tests is a guard that rots. These run the checkers against
+      # deliberately broken copies of the real manifest and assert each one says
+      # so — by message, not merely by exit code.
+      - name: Mutation tests — the manifest checker actually fails when it should
+        run: ./tests/check-marketplace.sh
+
+      - name: Branch tests — the cross-repo checker, against a stubbed gh
+        run: ./tests/check-source-versions.sh
+
+      # ============================================================
+      # Cross-repo check. THIS ARM IS EXPECTED TO BE BLIND IN CI.
+      #
+      # This repository is public; the plugins it lists are private. A workflow's
+      # default GITHUB_TOKEN cannot read them, so the script exits 2 — "could not
+      # look" — and that is reported as a warning rather than a pass or a
+      # failure. A genuine version disagreement exits 1 and fails the job.
+      #
+      # To make this arm actually look: add a repo secret with read access to the
+      # plugin repositories and expose it as GH_TOKEN below. Until then the check
+      # is real only when run locally by someone who has credentials.
+      # ============================================================
+      - name: Catalogue versions vs source repositories
+        env:
+          GH_TOKEN: ${{ secrets.PLUGIN_READ_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          # GitHub runs `run:` steps as `bash -e`, which would abort here the
+          # moment the script exits 2 — before the case below could tell a blind
+          # spot apart from a mismatch. Turn -e off deliberately for this step.
+          set +e
+          set -uo pipefail
+          ./.github/scripts/check-source-versions.sh
+          rc=$?
+          case "$rc" in
+            0) echo "✓ every catalogue version matches its source repository" ;;
+            2) echo "::warning::Could not verify catalogue versions against the source repositories (no read access to the private plugin repos). This is not a pass — see the ? lines above." ;;
+            *) echo "::error::A catalogue version disagrees with its source repository"; exit 1 ;;
+          esac
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Marketplace catalogue gates"
+            echo
+            echo "| Gate | What it covers |"
+            echo "| --- | --- |"
+            echo "| M1 | \`marketplace.json\` parses as JSON |"
+            echo "| M2-M3 | top-level keys, types, catalogue SemVer |"
+            echo "| M4-M7 | every entry has name, version, source, description, author, homepage; SemVer; slug names; https \`.git\` source |"
+            echo "| M8 | a description may not contradict the version it ships under |"
+            echo "| M9 | renames resolve to a listed plugin or null, and never shadow one |"
+            echo "| M10 | renames are append-only — deleting one turns a graceful migration back into \`plugin-not-found\` |"
+            echo "| M11 | a changed entry moves the catalogue version |"
+            echo "| M12 | every listed plugin appears in README.md |"
+            echo
+            echo "Cross-repo version agreement runs but is **blind in CI**: this repo is public,"
+            echo "the plugin repos are private, and the default token cannot read them."
+          } >> "$GITHUB_STEP_SUMMARY"

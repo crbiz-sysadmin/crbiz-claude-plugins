@@ -156,6 +156,10 @@ catalogue. To ship a change:
 3. Bump the matching `version` in this repository's `marketplace.json` entry,
    and `metadata.version` at the top level.
 
+The second half of step 3 is now enforced: CI fails a pull request that changes
+a plugin entry without moving `metadata.version` (gate **M11** under
+[Validation](#validation)).
+
 Step 3 is not cosmetic. For git-backed sources, a declared `version` **pins**
 the plugin: users keep the cached copy until that string changes, no matter how
 many commits you push. Forgetting it is indistinguishable from the update not
@@ -175,3 +179,60 @@ Private plugin sources must share this marketplace's GitHub owner
 organisation settings. Relative-path sources (`./plugins/<name>`) would publish
 the plugin's code into this public repository, so they are not an option for
 anything private.
+
+## Validation
+
+`.claude-plugin/marketplace.json` is what every `claude plugin` install in the
+estate resolves. A malformed file breaks every install, for everyone, at once.
+Until CI landed, nothing in this repository read the file — the last change to
+it was hand-parsed by a human before merging, which worked and does not scale.
+
+Every pull request and every push to `main` now runs
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml):
+
+| Gate | What it catches |
+| --- | --- |
+| **M1** | the manifest does not parse as JSON |
+| **M2-M3** | a missing or mistyped top-level key; `metadata.version` that is not SemVer |
+| **M4-M7** | an entry missing `name`, `version`, `source`, `description`, `author` or `homepage`; a non-SemVer version; a name that is not a lowercase-hyphen slug; a duplicate name; a source that is not an https `.git` URL |
+| **M8** | a description that contradicts the version it ships under — the drift that had the catalogue declaring `2.3.0` while its description read "v2.2.0 of the PM-on-CC discipline" |
+| **M9** | a rename pointing at a plugin this catalogue does not list, or shadowing one it does |
+| **M10** | a **deleted** rename entry. The map is append-only for the reason given above: deleting an entry turns a graceful migration back into a hard `plugin-not-found` |
+| **M11** | a changed plugin entry without a `metadata.version` bump |
+| **M12** | a listed plugin that this README never mentions |
+
+Run them yourself:
+
+```bash
+python3 .github/scripts/check-marketplace.py     # the gates above
+./tests/check-marketplace.sh                     # prove they still fail when they should
+```
+
+The checker exits `0` when every check passed, `1` when one failed, and `2` when
+it could not read the manifest at all. Checks that need a base revision to
+compare against are reported as `SKIPPED` when there isn't one — never as passes.
+
+### The cross-repo check is blind in CI
+
+[`.github/scripts/check-source-versions.sh`](.github/scripts/check-source-versions.sh)
+asks a different question: does each entry's declared `version` match what its
+source repository actually publishes in `.claude-plugin/plugin.json`?
+
+It is a separate script because it can fail for a reason that has nothing to do
+with the manifest. **This repository is public and the plugins it lists are
+private**, so a workflow's default `GITHUB_TOKEN` cannot read them. In CI the
+script therefore exits `2` — *could not look* — and the job records a warning.
+That is deliberate: a blind check must not report a pass, and must not fail the
+build for a credentials problem either.
+
+It is a real check when run by someone who has credentials:
+
+```bash
+gh auth login && ./.github/scripts/check-source-versions.sh
+```
+
+To make it real in CI, add a repository secret with read access to the plugin
+repos named `PLUGIN_READ_TOKEN`; the workflow already prefers it over the
+default token. Its matching and mismatching branches are exercised against a
+stubbed `gh` by [`tests/check-source-versions.sh`](tests/check-source-versions.sh),
+so they are tested even while they cannot run for real here.
