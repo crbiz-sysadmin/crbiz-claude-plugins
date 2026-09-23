@@ -81,9 +81,13 @@ expect "both match -> 0" 0 "2 matched, 0 mismatched, 0 not looked up"
 echo
 echo "== a source has moved on and the catalogue has not =="
 reset_stub
-set_repo crbiz-sysadmin/crbiz-pm     '{"name":"crbiz-pm","version":"2.4.0"}'
+# 99.0.0, NOT a plausible next version. This line said "2.4.0" until
+# 2026-09-23, when the catalogue actually reached 2.4.0 — at which point the
+# stub agreed with the declaration and the mismatch case stopped exercising a
+# mismatch at all. It passed, silently, testing nothing.
+set_repo crbiz-sysadmin/crbiz-pm     '{"name":"crbiz-pm","version":"99.0.0"}'
 set_repo crbiz-sysadmin/crbiz-skills "{\"name\":\"crbiz-skills\",\"version\":\"$DECLARED_SK\"}"
-expect "mismatch -> 1, naming both versions" 1 "catalogue declares $DECLARED_PM but crbiz-sysadmin/crbiz-pm publishes 2.4.0"
+expect "mismatch -> 1, naming both versions" 1 "catalogue declares $DECLARED_PM but crbiz-sysadmin/crbiz-pm publishes 99.0.0"
 
 echo
 echo "== could not look is never a pass =="

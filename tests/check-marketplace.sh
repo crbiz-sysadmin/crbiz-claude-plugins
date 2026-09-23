@@ -158,8 +158,17 @@ expect "M7 source wrong type" 1 ".source must be an object or a string" -- \
 
 echo
 echo "== M8 description may not contradict the version =="
-mutate 'm["plugins"][0]["description"] = m["plugins"][0]["description"].replace("v2.3.0 of the PM-on-CC discipline", "v2.2.0 of the PM-on-CC discipline")'
-expect "M8 the live drift, re-applied" 1 'declares version 2.3.0' -- \
+# THE MUTATIONS BELOW DERIVE FROM THE LIVE MANIFEST, NEVER A HARDCODED VERSION.
+# They hardcoded "2.3.0" / "2.4.0" / "0.4.2" until 2026-09-23, and the release
+# that moved the manifest to 2.4.0 walked straight into it: the M11 case that
+# mutates the version TO "2.4.0" became a no-op against a manifest already
+# saying 2.4.0, so it passed while testing nothing. A test that can be
+# satisfied by not running is not a test, and this one had quietly become one.
+CUR_VER=$(python3 -c 'import json;print(json.load(open("'"$MANIFEST"'"))["plugins"][0]["version"])')
+CUR_CAT=$(python3 -c 'import json;print(json.load(open("'"$MANIFEST"'"))["metadata"]["version"])')
+
+mutate 'import re; d = m["plugins"][0]["description"]; m["plugins"][0]["description"] = re.sub(r"v\d+\.\d+(\.\d+)? of the PM-on-CC discipline", "v0.1 of the PM-on-CC discipline", d)'
+expect "M8 the live drift, re-applied" 1 "declares version $CUR_VER" -- \
   --manifest "$WORK/mutated.json" --readme "$README"
 
 mutate 'm["plugins"][0]["version"] = "3.0.0"'
@@ -195,17 +204,16 @@ mutate 'm["renames"]["pm-board-keeper"] = None'
 expect "M10 rename repointed to null" 1 "changed from" -- \
   --manifest "$WORK/mutated.json" --readme "$README" --base-manifest "$WORK/base.json"
 
-mutate 'm["plugins"][0]["version"] = "2.4.0"'
+# 99.0.0 cannot collide with a real version, so this mutation stays a mutation.
+# The description's claim moves with it, or M8 fires first and M11 is never
+# reached — found by this harness when the original form bumped the version
+# alone and went red on M8, which is the check doing its job.
+mutate 'import re; m["plugins"][0]["version"] = "99.0.0"; m["plugins"][0]["description"] = re.sub(r"v\d+\.\d+(\.\d+)? of the PM-on-CC discipline", "v99.0 of the PM-on-CC discipline", m["plugins"][0]["description"])'
 expect "M11 entry changed, catalogue not bumped" 1 "bump the catalogue version" -- \
   --manifest "$WORK/mutated.json" --readme "$README" --base-manifest "$WORK/base.json"
 
-# The version and the description's version claim move together, or M8 fires
-# first and this case never reaches M11. Found by this harness: the original
-# form of this case bumped the version alone and went red on M8 — which is the
-# check doing its job, so the expectation was corrected rather than the gate
-# loosened.
-mutate 'm["plugins"][0]["version"] = "2.4.0"; m["plugins"][0]["description"] = m["plugins"][0]["description"].replace("v2.3.0 of the PM-on-CC", "v2.4.0 of the PM-on-CC"); m["metadata"]["version"] = "0.5.0"'
-expect "M11 entry changed and catalogue bumped" 0 "catalogue 0.4.2 -> 0.5.0" -- \
+mutate 'import re; m["plugins"][0]["version"] = "99.0.0"; m["plugins"][0]["description"] = re.sub(r"v\d+\.\d+(\.\d+)? of the PM-on-CC discipline", "v99.0 of the PM-on-CC discipline", m["plugins"][0]["description"]); m["metadata"]["version"] = "99.0.0"'
+expect "M11 entry changed and catalogue bumped" 0 "catalogue $CUR_CAT -> 99.0.0" -- \
   --manifest "$WORK/mutated.json" --readme "$README" --base-manifest "$WORK/base.json"
 
 mutate 'pass'
