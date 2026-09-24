@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.4.4"
+    "version": "0.4.5"
   },
   "plugins": [
     {
@@ -15,8 +15,8 @@
         "source": "url",
         "url": "https://github.com/crbiz-sysadmin/crbiz-pm.git"
       },
-      "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the discovery-strategy, tailwind-catalyst-app and zoho-catalyst-app archetypes. Install via marketplace on any surface; slash-command invocation runs in Claude Code CLI on a local folder or a Claude Code remote session against a repo (not currently supported in claude.ai/code Cowork). Bidirectional HTML board, chip-spawn wrapper with per-chip git worktree allocation, Tie-back protocol, lean PM context, and the change-management surface (/pm-cr, /pm-cab, /pm-lint I15). v2.5 of the PM-on-CC discipline applies the Opus 5.5 prompt audit and fixes a v2.4.0 defect in which every chip halted at its first turn: the spawn template pinned a retired model and its model gate refused any mismatch. The spawning PM now picks each chip's model with a one-line reason, the model IDs live in one reference file, and a chip stops only when it runs on a less capable model than proposed. The PM session takes routine next steps and reports them, confirming first only for merging to main, sending outside the team, deleting what git cannot recover, and production deploys; every authorisation gate is unchanged. Chips launch from the CLI in a Windows Terminal tab as well as from Desktop, and a PM session warns when jq is missing and the lane and staging guards are therefore inactive. 42 skills + 6 agents + SessionStart hook + 2 PreToolUse hooks (git-stage-guard + worktree-visibility-guard); /pm-lint runs 24 checks.",
-      "version": "2.5.0",
+      "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the discovery-strategy, tailwind-catalyst-app and zoho-catalyst-app archetypes. Install via marketplace on any surface; slash-command invocation runs in Claude Code CLI on a local folder or a Claude Code remote session against a repo (not currently supported in claude.ai/code Cowork). Bidirectional HTML board, chip-spawn wrapper with per-chip git worktree allocation, Tie-back protocol, lean PM context, and the change-management surface (/pm-cr, /pm-cab, /pm-lint I15). v2.5.1 of the PM-on-CC discipline fixes the worktree guard, which blocked every write on Windows by misreading C:\\ paths, and makes both PreToolUse guards work without jq (falling back to node or Python, and failing closed when no parser runs). v2.5 applies the Opus 5.5 prompt audit and fixes a v2.4.0 defect in which every chip halted at its first turn: the spawn template pinned a retired model and its model gate refused any mismatch. The spawning PM now picks each chip's model with a one-line reason, the model IDs live in one reference file, and a chip stops only when it runs on a less capable model than proposed. The PM session takes routine next steps and reports them, confirming first only for merging to main, sending outside the team, deleting what git cannot recover, and production deploys; every authorisation gate is unchanged. Chips launch from the CLI in a Windows Terminal tab as well as from Desktop. 42 skills + 6 agents + SessionStart hook + 2 PreToolUse hooks (git-stage-guard + worktree-visibility-guard); /pm-lint runs 24 checks.",
+      "version": "2.5.1",
       "author": {
         "name": "Sean Sullivan",
         "url": "https://github.com/crbiz-sysadmin"
