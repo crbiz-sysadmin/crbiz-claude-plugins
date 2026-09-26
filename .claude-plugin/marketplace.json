@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.4.6"
+    "version": "0.4.7"
   },
   "plugins": [
     {
@@ -15,8 +15,8 @@
         "source": "url",
         "url": "https://github.com/crbiz-sysadmin/crbiz-pm.git"
       },
-      "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the discovery-strategy, tailwind-catalyst-app and zoho-catalyst-app archetypes. Install via marketplace on any surface; slash-command invocation runs in Claude Code CLI on a local folder or a Claude Code remote session against a repo (not currently supported in claude.ai/code Cowork). Bidirectional HTML board, chip-spawn wrapper with per-chip git worktree allocation, Tie-back protocol, lean PM context, and the change-management surface (/pm-cr, /pm-cab, /pm-lint I15). v2.6 of the PM-on-CC discipline makes Zoho work load the matching crbiz-skills specialist first: a PreToolUse gate refuses each agent's first Zoho Desk, CRM, Catalyst, Analytics, Books or Sprints MCP call until that agent has loaded the specialist, and the spawn rules require it. It adds pm-sprints (Zoho Sprints cards move with the work, to Internal QA and never Done), warns at PM boot when the running crbiz-pm is older than the marketplace, and fixes /pm-fire so CLI chips launch as durable, named, resumable sessions and are verified before counting as launched. v2.5.1 fixed the Windows worktree guard and made both PreToolUse guards work without jq. 43 skills + 6 agents + SessionStart hook + 3 PreToolUse hooks (git-stage-guard, worktree-visibility-guard, zoho-skill-gate); /pm-lint runs 24 checks.",
-      "version": "2.6.0",
+      "description": "CRBiz PM for Claude Code. PM-as-Configuration-Overlay grammar with reference implementations of the discovery-strategy, tailwind-catalyst-app and zoho-catalyst-app archetypes. Install via marketplace on any surface; slash-command invocation runs in Claude Code CLI on a local folder or a Claude Code remote session against a repo (not currently supported in claude.ai/code Cowork). Bidirectional HTML board, chip-spawn wrapper with per-chip git worktree allocation, Tie-back protocol, lean PM context, and the change-management surface (/pm-cr, /pm-cab, /pm-lint I15). v2.6 of the PM-on-CC discipline makes Zoho work load the matching crbiz-skills specialist first: a PreToolUse gate refuses each agent's first Zoho Desk, CRM, Catalyst, Analytics, Books or Sprints MCP call until that agent has loaded the specialist, and the spawn rules require it. It adds pm-sprints (Zoho Sprints cards move with the work, to Internal QA and never Done), warns at PM boot when the running crbiz-pm is older than the marketplace, and fixes /pm-fire so CLI chips launch as durable, named, resumable sessions and are verified before counting as launched. v2.6.1 lets WebFetch reach Claude, Anthropic, Zoho, Catalyst and GitHub hosts without a prompt (every other host still asks). v2.5.1 fixed the Windows worktree guard and made both PreToolUse guards work without jq. 43 skills + 6 agents + SessionStart hook + 4 PreToolUse hooks (git-stage-guard, worktree-visibility-guard, zoho-skill-gate, webfetch-trusted-domains); /pm-lint runs 24 checks.",
+      "version": "2.6.1",
       "author": {
         "name": "Sean Sullivan",
         "url": "https://github.com/crbiz-sysadmin"
