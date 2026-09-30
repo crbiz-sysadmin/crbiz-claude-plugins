@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "CRBiz internal Claude Code plugins.",
-    "version": "0.4.14"
+    "version": "0.4.15"
   },
   "plugins": [
     {
